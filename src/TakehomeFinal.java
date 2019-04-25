@@ -115,6 +115,49 @@ public class TakehomeFinal
             }
 
 
+            String sqlStatement7 =
+                    "SELECT CustId FROM Orders WHERE OrderNum IN (SELECT OrderNum FROM OrderItems WHERE ProdId = 'TNT2')";
+
+            ResultSet result7 = stmt.executeQuery(sqlStatement7);
+            System.out.println("\nThe output from Page 123: ");
+
+            while (result7.next())
+            {
+                System.out.printf("%25s\n",
+                        result7.getString("CustId"));
+            }
+
+
+            String sqlStatement8 =
+                    "SELECT CustName, CustContact FROM Customers WHERE CustId IN (SELECT CustId FROM Orders WHERE OrderNum IN (SELECT OrderNum FROM OrderItems WHERE ProdId = 'TNT2'))";
+
+            ResultSet result8 = stmt.executeQuery(sqlStatement8);
+            System.out.println("\nThe output from Page 124: ");
+
+            while (result8.next())
+            {
+                System.out.printf("%25s %25s\n",
+                        result8.getString("CustName"),
+                        result8.getString("CustContact"));
+            }
+
+
+
+            String sqlStatement10 =
+                    "SELECT CustName, CustState, (SELECT COUNT(*) FROM Orders WHERE CustId = CustId) AS Orders FROM Customers ORDER BY CustName";
+
+            ResultSet result10 = stmt.executeQuery(sqlStatement10);
+            System.out.println("\nThe output from Page 128: ");
+
+            while (result10.next())
+            {
+                System.out.printf("%25s %25s %25s\n",
+                        result10.getString("CustName"),
+                        result10.getString("CustState"),
+                        result10.getString("Orders"));
+            }
+
+
 
 
 
