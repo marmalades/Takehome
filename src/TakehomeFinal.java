@@ -1,12 +1,3 @@
-// all you have to do is add SELECT CLAUSES and replace the printf STATEMENTS
-
-// YOU WILL HAVE TO LOOK AT THE "MysqlCreateDB" JAVA PROGRAM TO GET THE NEEDED
-// FIELD NAMES FOR THE SELECTS AND FIELD TYPES AND FIELD SIZES FOR THE printf statements
-
-// you must name the class your LAST NAME with Mysql - for example - GuynesMysql
-// and the name of the java program to match - for example GuynesMysql.java
-
-import java.util.Scanner;
 import java.sql.*;
 public class TakehomeFinal
 {
@@ -142,7 +133,6 @@ public class TakehomeFinal
             }
 
 
-
             String sqlStatement10 =
                     "SELECT CustName, CustState, (SELECT COUNT(*) FROM Orders WHERE CustId = CustId) AS Orders FROM Customers ORDER BY CustName";
 
@@ -159,22 +149,58 @@ public class TakehomeFinal
 
 
 
+            String sqlStatement11 =
+                    "SELECT VendName, ProdName, ProdPrice FROM Vendors, Products WHERE Vendors.VendId = Products.VendId ORDER BY VendName, ProdName";
+
+            ResultSet result11 = stmt.executeQuery(sqlStatement11);
+            System.out.println("\nThe output from Page 134: ");
+
+            while (result11.next())
+            {
+                System.out.printf("%25s %25s %25s\n",
+                        result11.getString("VendName"),
+                        result11.getString("ProdName"),
+                        result11.getString("ProdPrice"));
+            }
 
 
 
+            String sqlStatement12 =
+                    "SELECT VendName, ProdName, ProdPrice FROM Vendors INNER JOIN Products ON Vendors.VendID = Products.VendId";
+
+            ResultSet result12 = stmt.executeQuery(sqlStatement12);
+            System.out.println("\nPage 139: NO OUTPUT - INNER JOIN TABLES ONLY ");
+            //*** No output since INNER JOIN ***
+
+
+            String sqlStatement13 =
+                    "SELECT ProdName, VendName, ProdPrice, Quantity FROM OrderItems, Products, Vendors WHERE Products.VendId = Vendors.VendId AND OrderItems.ProdId = Products.ProdId AND OrderNum = 20005";
+            ResultSet result13 = stmt.executeQuery(sqlStatement13);
+            System.out.println("\nThe output from Page 140: ");
+
+            while (result13.next())
+            {
+                System.out.printf("%25s %25s %25s\n",
+                        result13.getString("ProdName"),
+                        result13.getString("VendName"),
+                        result13.getString("ProdPrice"),
+                        result13.getString("Quantity"));
+            }
 
 
 
+            String sqlStatement14 =
+                    "SELECT CustName, CustContact FROM Customers, Orders, OrderItems WHERE Customers.CustId = Orders.CustId AND OrderItems.OrderNum = Orders.OrderNum AND ProdId = 'TNT2'";
+            ResultSet result14 = stmt.executeQuery(sqlStatement14);
+            System.out.println("\nThe output from Page 141: ");
 
+            while (result14.next())
+            {
+                System.out.printf("%25s %25s\n",
+                        result14.getString("CustName"),
+                        result14.getString("CustContact"));
+            }
 
-
-
-
-
-
-
-
-// LEAVE THE REST OF THE CODE ALONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             conn.close();
         }
         catch(Exception ex)
